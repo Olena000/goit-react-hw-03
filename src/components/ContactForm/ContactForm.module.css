@@ -37,3 +37,9 @@
   border: 3px solid rgb(160, 100, 140);
   padding: 8px;
 }
+
+.error {
+  color: red;
+  font-size: 14px;
+  font-weight: bold;
+}

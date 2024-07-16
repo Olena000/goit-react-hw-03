@@ -1,8 +1,9 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import s from "./ContactForm.module.css";
 import * as Yup from "yup";
+import { nanoid } from "nanoid";
 
-export default function ContactForm() {
+export default function ContactForm({ onAdd }) {
   const initialValues = {
     name: "",
     number: "",
@@ -13,10 +14,16 @@ export default function ContactForm() {
       .required("This field is required")
       .min(3, "Name must be more than 3 chars!")
       .max(50, "Name must be less than 50 chars!"),
+    number: Yup.string()
+      .required("This field is required")
+      .min(3, "Number must be more than 3 chars!")
+      .max(50, "Number must be less than 50 chars!")
+      .matches(/^\d+$/, "Number must contain only digits"),
   });
 
   const handleSubmit = (data, actions) => {
-    console.log(data);
+    const newContact = { ...data, id: nanoid() };
+    onAdd(newContact);
     actions.resetForm();
   };
   return (
@@ -39,6 +46,11 @@ export default function ContactForm() {
           <label className={s.label}>
             <span>Number</span>
             <Field className={s.input} name="number"></Field>
+            <ErrorMessage
+              name="number"
+              component="span"
+              className={s.error}
+            ></ErrorMessage>
           </label>
           <button type="submit">Add contact</button>
         </Form>

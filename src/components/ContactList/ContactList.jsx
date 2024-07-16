@@ -1,13 +1,16 @@
-export default function ContactList({ contacts }) {
+import Contact from "../Contact/Contact";
+
+export default function ContactList({ contacts, onDelete }) {
   return (
     <ul>
-      {contacts.map((contact) => (
-        <li key={contact.id}>
-          {contact.name} - {contact.number}
-          <button type="button" id={contact.id}>
-            Delete
-          </button>
-        </li>
+      {contacts.map(({ id, name, number }) => (
+        <Contact
+          key={id}
+          id={id}
+          name={name}
+          number={number}
+          onDelete={onDelete}
+        />
       ))}
     </ul>
   );

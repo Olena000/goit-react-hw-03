@@ -17,6 +17,8 @@ function App() {
     return savedContacts ? JSON.parse(savedContacts) : initialContacts;
   });
 
+  const [filter, setFilter] = useState("");
+
   useEffect(() => {
     localStorage.setItem("contacts", JSON.stringify(contacts));
   }, [contacts]);
@@ -33,13 +35,17 @@ function App() {
     });
   };
 
+  const filterContacts = contacts.filter((contact) =>
+    contact.name.toLowerCase().includes(filter.toLocaleLowerCase())
+  );
+
   return (
     <>
       <div className={s.formWrapper}>
         <h1 className={s.title}>Phonebook</h1>
         <ContactForm onAdd={addContact} />
-        <SearchBox />
-        <ContactList contacts={contacts} onDelete={deleteContact} />
+        <SearchBox value={filter} onFilter={setFilter} />
+        <ContactList contacts={filterContacts} onDelete={deleteContact} />
       </div>
     </>
   );
